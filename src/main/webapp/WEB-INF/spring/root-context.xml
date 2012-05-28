@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+	<context:component-scan base-package="com.w3villa.*"></context:component-scan>
+	<context:component-scan base-package="com.w3villa.dao"></context:component-scan>
+	<context:component-scan base-package="com.w3villa.daoImpl"></context:component-scan>
+	<context:annotation-config></context:annotation-config>
+
+	<aop:aspectj-autoproxy/>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+
+		<property name="configLocations" value="classpath:hibernate/hibernate.cfg.xml" />
+		<property name="packagesToScan">
+			<value>com.w3villa.domain</value>
+		</property>
+
+	</bean>
+	<tx:annotation-driven />
+
+	<tx:jta-transaction-manager />
+
+	<bean id="transactionManager"
+		class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="transactionManagerName" value="java:/TransactionManager" />
+	</bean>
+</beans>
